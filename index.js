@@ -20,8 +20,9 @@ scene.background = new THREE.Color(0x1111111);
 
 // Camera
 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-camera.position.z = 55;
-camera.position.y = 50;
+var cameraPosZ = 70;
+camera.position.z = cameraPosZ;
+camera.position.y = 20;
 
 // Renderer
 renderer = new THREE.WebGLRenderer({antialias: true});
@@ -47,7 +48,7 @@ var triangleMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFEE});
 var triangles = [];
 var triangleGroup = new THREE.Group();
 
-for (let i = 0; i <= 1000; i++) {
+for (let i = 0; i <= 999; i++) {
     var triangle = new THREE.Mesh(triangleGeometry, triangleMaterial);
     triangle.position.x = Math.random() * 50 - 20;
     triangle.position.y = Math.random() * 60 - 5;
@@ -71,13 +72,11 @@ function render() {
             triangle.position.y += fqdata[10] * 0.001 / 1000;
             triangle.rotation.x += fqdata[250] * 0.0001 / 10;
             triangle.rotation.x -= fqdata[100] * 0.0001 / 10;
-            triangleMaterial.color = new THREE.Color(0xFFFFEE + ( fqdata[106] * 0.01 / 100) * 0xE5E500);
+            triangleMaterial.color = new THREE.Color(0xFFFFEE + (fqdata[106] * 2) * 0xFCBED);
         });
     }
 
-    camera.position.z = 55 + fqdata[200] * 0.001;
-
-    camera.lookAt(scene.position);
+    camera.position.z = cameraPosZ + fqdata[200] * 0.001;
 
     analyser.getByteFrequencyData(fqdata);
 }
