@@ -15,8 +15,8 @@ fqdata = new Uint8Array(analyser.frequencyBinCount);
 
 // Scene
 scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x111111, 0.025);
-scene.background = new THREE.Color(0x1111111);
+scene.fog = new THREE.FogExp2(0x03c6fc1, 0.018);
+scene.background = new THREE.Color(0x03c6fc);
 
 // Camera
 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -34,6 +34,18 @@ document.body.appendChild(renderer.domElement);
 // Light
 ambientLight = new THREE.AmbientLight(0xFFFFFF);
 scene.add(ambientLight);
+
+var spotlight = new THREE.SpotLight(0xFFFFFF);
+spotlight.castShadow = true;
+spotlight.shadow.mapSize.width = 2048;
+spotlight.shadow.mapSize.height = 2048;
+
+spotlight.position.set(
+    camera.position.x,
+    camera.position.y,
+    camera.position.z
+);
+// scene.add(spotlight);
 
 // Geometries, materials and mesh
 var triangleGeometry = new THREE.Geometry();
@@ -55,6 +67,8 @@ for (let i = 0; i <= 999; i++) {
     triangle.position.z = Math.random() * 80 - 5;
     triangle.rotation.y = Math.random() * 5;
     triangle.rotation.x = Math.random() * 5;
+    triangle.castShadow = true;
+    triangle.receiveShadow = true;
     triangles.push(triangle);
     triangleGroup.add(triangle);
 }
@@ -72,7 +86,7 @@ function render() {
             triangle.position.y += fqdata[10] * 0.001 / 1000;
             triangle.rotation.x += fqdata[250] * 0.0001 / 10;
             triangle.rotation.x -= fqdata[100] * 0.0001 / 10;
-            triangleMaterial.color = new THREE.Color(0xFFFFEE + (fqdata[106] * 2) * 0xFCBED);
+            // triangleMaterial.color = new THREE.Color(0xFFFFEE + (fqdata[106] * 10) * 0xFF99BB);
         });
     }
 
